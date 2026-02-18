@@ -19,14 +19,18 @@ The base Docker image is automatically built and pushed to GitHub Container Regi
 
 #### Creating a Release Tag
 ```bash
-# Create and push a tag
+# Create and push a tag (with v prefix)
 git tag v1.0.0
 git push origin v1.0.0
+
+# OR create a tag without v prefix
+git tag 1.0.0
+git push origin 1.0.0
 ```
 
 This will trigger the GitHub Actions workflow that:
 1. Builds the base Docker image
-2. Pushes it to `ghcr.io/avikantsrivastava/llm-inference-engine/base` with the tag name
+2. Pushes it to `ghcr.io/avikantsrivastava/llm-inference-engine/base` with the tag name (e.g., `v1.0.0` or `1.0.0`)
 3. Also tags it as `latest` if on the default branch
 
 #### Manual Workflow Trigger
@@ -40,8 +44,11 @@ You can also manually trigger the workflow from the GitHub Actions tab:
 # Pull the latest image
 docker pull ghcr.io/avikantsrivastava/llm-inference-engine/base:latest
 
-# Pull a specific version
+# Pull a specific version (with v prefix)
 docker pull ghcr.io/avikantsrivastava/llm-inference-engine/base:v1.0.0
+
+# Pull a specific version (without v prefix)
+docker pull ghcr.io/avikantsrivastava/llm-inference-engine/base:1.0.0
 ```
 
 **Note**: The image is published as a public package and can be pulled without authentication.
