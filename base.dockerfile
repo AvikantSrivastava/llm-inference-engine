@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:22.04
 
 RUN apt-get update && apt-get install -y \
     # Build utils
@@ -9,8 +9,7 @@ RUN apt-get update && apt-get install -y \
     lld \
     clang \
     libcurl4 \
-    glslc \
-
+    libc6 \
     # AMD GPU drivers and Vulkan SDK utils
     mesa-vulkan-drivers \
     radeontop
@@ -34,11 +33,11 @@ RUN curl -L -o /tmp/amdvlk_2025.Q2.1_amd64.deb \
 # Install llama.cpp
 RUN mkdir -p /opt/llama \
     && curl -L -o /tmp/llama.tar.gz \
-        https://github.com/ggml-org/llama.cpp/releases/download/b9736/llama-b9736-bin-ubuntu-vulkan-x64.tar.gz \
+	https://github.com/ggml-org/llama.cpp/archive/refs/tags/v1.0.0.tar.gz \
     && tar xf /tmp/llama.tar.gz -C /opt/llama \
     && mv /opt/llama/llama*/* /opt/llama/ \
-    && rmdir /opt/llama/llama-b9736 \
-    && rm -f /tmp/llama-b9736-bin-ubuntu-vulkan-*.tar.gz
+    && rm -rf /opt/llama/llama.cpp-* \
+    && rm -f /tmp/llama.tar.gz
 
 RUN ln -s /opt/llama/llama-* /usr/local/bin/
 ENTRYPOINT ["llama-server"]
